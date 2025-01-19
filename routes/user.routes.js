@@ -12,7 +12,17 @@ router.get("/register", (req,res)=>{
     res.render('register');
 });
 
-router.post("/register", async (req,res)=>{
+router.post("/register", 
+    body('email').trim().isEmail().isLength({ min: 11 }),
+    body('password').trim().isLength({ min: 5 }),
+    body('username').trim().isLength({ min: 3 }),
+    (req, res)=>{
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            res.status(400).json({errors:errors,msg:"Invalid data entered"});
+        }
+        res.send(errors);
+    }, async (req,res)=>{
     // const {username, email, password} = req.body;
     console.log(req.body);
     res.send("User registered");
