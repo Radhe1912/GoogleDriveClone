@@ -6,8 +6,11 @@ dotenv.config();
 const connectToDB = require('./config/db');
 connectToDB();
 
+// cookie parser to store the token
+const cookieParser = require('cookie-parser');
 const app = express();
 
+app.use(cookieParser());
 app.set("view engine", "ejs");
 
 app.use(express.json());
